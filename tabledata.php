@@ -1,13 +1,6 @@
 <?php
 
-require_once "class.persons-table.php";
-
-function we_form_load_textdomain()
-{
-    load_plugin_textdomain('we_form', false, dirname(__FILE__) . "/languages");
-}
-
-add_action("plugins_loaded", "we_form_load_textdomain");
+require_once "weFormClass.php";
 
 function datatable_admin_page()
 {
@@ -16,7 +9,9 @@ function datatable_admin_page()
         __('We Form', 'we_form'),
         'manage_options',
         'datatable',
-        'datatable_display_table'
+        'datatable_display_table',
+        'dashicons-email-alt2',
+        25
     );
 }
 

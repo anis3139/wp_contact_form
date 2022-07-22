@@ -30,5 +30,12 @@ function we_form_init()
 
 register_activation_hook(__FILE__, "we_form_init");
 
+function we_form_load_textdomain()
+{
+    load_plugin_textdomain('we_form', false, dirname(__FILE__) . "/languages");
+}
+
+add_action("plugins_loaded", "we_form_load_textdomain");
+
 require_once('page.php');
 require_once "tabledata.php";
