@@ -1,7 +1,7 @@
 <?php
-add_filter('theme_page_templates', 'pt_add_page_template_to_dropdown');
-add_filter('template_include', 'pt_change_page_template', 99);
-add_action('wp_enqueue_scripts', 'pt_remove_style');
+add_filter('theme_page_templates', 'we_form_add_page_template');
+add_filter('template_include', 'we_form_change_page_template', 99);
+add_action('wp_enqueue_scripts', 'we_form_style');
 add_action('init', 'handle_form');
 
 function validation($val)
@@ -23,10 +23,11 @@ function handle_form()
         $name=validation($_POST['name']);
         $email=validation($_POST['email']);
         $age=validation($_POST['age']);
-        if (strlen($name)!=0 && strlen($email)!=0 && strlen($age)!=0) {
+        $sex=validation($_POST['sex']);
+        if (strlen($name)!=0 && strlen($email)!=0 && strlen($age)!=0&& strlen($sex)!=0) {
             global $wpdb;
             $table_name = $wpdb->prefix . 'wp_db';
-            $result=$wpdb->insert($table_name, ['name'=>$name, 'email'=>$email, 'age'=>$age], ['%s', '%s', '%d']);
+            $result=$wpdb->insert($table_name, ['name'=>$name, 'email'=>$email, 'age'=>$age, 'sex'=>$sex], ['%s', '%s', '%d', '%s']);
             if (is_wp_error($result)) {
                 $result->get_error_message();
             }
@@ -43,7 +44,7 @@ function handle_form()
  *
  * @return array  $templates  The modified list of page templates
  */
-function pt_add_page_template_to_dropdown($templates)
+function we_form_add_page_template($templates)
 {
     $templates[plugin_dir_path(__FILE__) . 'templates/contact.php'] = __('Contact Page', 'text-domain');
 
@@ -57,7 +58,7 @@ function pt_add_page_template_to_dropdown($templates)
  *
  * @return mixed
  */
-function pt_change_page_template($template)
+function we_form_change_page_template($template)
 {
     if (is_page()) {
         $meta = get_post_meta(get_the_ID());
@@ -70,7 +71,7 @@ function pt_change_page_template($template)
     return $template;
 }
 
-function pt_remove_style()
+function we_form_style()
 {
     // Change this "my-page" with your page slug
     if (is_page('contact-page')) {

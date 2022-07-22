@@ -2,18 +2,18 @@
 
 require_once "class.persons-table.php";
 
-function tabledata_load_textdomain()
+function we_form_load_textdomain()
 {
-    load_plugin_textdomain('tabledata_example', false, dirname(__FILE__) . "/languages");
+    load_plugin_textdomain('we_form', false, dirname(__FILE__) . "/languages");
 }
 
-add_action("plugins_loaded", "tabledata_load_textdomain");
+add_action("plugins_loaded", "we_form_load_textdomain");
 
 function datatable_admin_page()
 {
     add_menu_page(
-        __('Data Table', 'tabledata'),
-        __('Data Table', 'tabledata'),
+        __('We Form', 'we_form'),
+        __('We Form', 'we_form'),
         'manage_options',
         'datatable',
         'datatable_display_table'
@@ -48,9 +48,9 @@ function datatable_display_table()
 {
     global $wpdb;
     $table_name = $wpdb->prefix . 'wp_db';
-    $results = $wpdb->get_results("select id, name, email, age from {$table_name}");
+    $results = $wpdb->get_results("select id, name, email, age, sex from {$table_name}");
     $data=json_decode(json_encode($results), true);
-    
+
     $orderby = $_REQUEST['orderby'] ?? '';
     $order   = $_REQUEST['order'] ?? '';
     if (isset($_REQUEST['s']) && !empty($_REQUEST['s'])) {
@@ -61,7 +61,7 @@ function datatable_display_table()
         $data = array_filter($data, 'datatable_filter_sex');
     }
 
-    $table = new Persons_Table();
+    $table = new We_Form_Table();
     if ('age' == $orderby) {
         if ('asc' == $order) {
             usort($data, function ($item1, $item2) {
@@ -87,15 +87,15 @@ function datatable_display_table()
 
     $table->prepare_items(); ?>
 <div class="wrap">
-	<h2><?php _e("Persons", "tabledata"); ?>
-	</h2>
-	<form method="GET">
-		<?php
+    <h2><?php _e("All Contact", "we_form"); ?>
+    </h2>
+    <form method="GET">
+        <?php
             $table->search_box('search', 'search_id');
     $table->display(); ?>
-		<input type="hidden" name="page"
-			value="<?php echo $_REQUEST['page']; ?>">
-	</form>
+        <input type="hidden" name="page"
+            value="<?php echo $_REQUEST['page']; ?>">
+    </form>
 </div>
 <?php
 }

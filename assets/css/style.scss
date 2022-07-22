@@ -1,6 +1,6 @@
 .contact-page {
   width: 80%;
-  margin:auto;
+  margin: auto;
   height: 100%;
   background: #fff;
 }
@@ -57,7 +57,8 @@ form {
 }
 
 input,
-textarea {
+textarea,
+select {
   width: 100%;
   padding: 9px 20px;
   border: 1px solid #e1e2eb;

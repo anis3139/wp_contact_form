@@ -3,7 +3,7 @@ if ( ! class_exists( "WP_List_Table" ) ) {
 	require_once( ABSPATH . "wp-admin/includes/class-wp-list-table.php" );
 }
 
-class Persons_Table extends WP_List_Table {
+class We_Form_Table extends WP_List_Table {
 
 	private $_items;
 
@@ -16,10 +16,10 @@ class Persons_Table extends WP_List_Table {
 	function get_columns() {
 		return [
 			'cb'    => '<input type="checkbox">',
-			'name'  => __( 'Name', 'tabledata' ),
-			'sex' =>__('Gender','tabledata'),
-			'email' => __( 'E-mail', 'tabledata' ),
-			'age'   => __( 'Age', 'tabledata' ),
+			'name'  => __( 'Name', 'we_form' ),
+			'sex' =>__('Gender','we_form'),
+			'email' => __( 'E-mail', 'we_form' ),
+			'age'   => __( 'Age', 'we_form' ),
 		];
 	}
 
@@ -53,7 +53,7 @@ class Persons_Table extends WP_List_Table {
 				<option value="F">Females</option>
 			</select>
 			<?php
-			submit_button(__('Filter','tabledata'),'button','submit',false);
+			submit_button(__('Filter','we_form'),'button','submit',false);
 			?>
 		</div>
 <?php
