@@ -4,7 +4,7 @@
 Plugin Name: weForm
 Plugin URI:
 Description: Contact Form or submit any data
-Version: 1.0.5
+Version: 1.1.1
 Author: Anis Arronno
 Author URI: https://wedevs.com
 License: GPLv2 or later
