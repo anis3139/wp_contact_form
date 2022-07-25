@@ -4,12 +4,47 @@
 Plugin Name: weForm
 Plugin URI:
 Description: Contact Form or submit any data
-Version: 1.0.0
+Version: 1.0.2
 Author: Anis Arronno
 Author URI: https://wedevs.com
 License: GPLv2 or later
 Text Domain: we_form
  */
+
+
+ 
+
+
+/**
+ * Initialize the plugin tracker
+ *
+ * @return void
+ */
+function appsero_init_tracker_weform()
+{
+    if (! class_exists('Appsero\Client')) {
+        require_once __DIR__ . '/appsero/src/Client.php';
+    }
+
+    $client = new Appsero\Client('15c4f427-41b7-4207-ac7d-a8448f48ad88', 'weform', __FILE__);
+
+    // Active insights
+    $client->insights()->add_plugin_data()->init();
+
+    // Active automatic updater
+    $client->updater();
+
+    // Active license page and checker
+    $args = array(
+        'type'       => 'options',
+        'menu_title' => 'weform',
+        'page_title' => 'weform Settings',
+        'menu_slug'  => 'weform_settings',
+    );
+    $client->license()->add_settings_page($args);
+}
+
+appsero_init_tracker_weform();
 
 
 function we_form_init()
