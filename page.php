@@ -28,7 +28,7 @@ function handle_form()
         $sex=validation($_POST['sex']);
         if (strlen($name)!=0 && strlen($email)!=0 && strlen($age)!=0&& strlen($sex)!=0) {
             global $wpdb;
-            $table_name = $wpdb->prefix . 'contact';
+            $table_name = $wpdb->prefix . 'contacts';
             $result=$wpdb->insert($table_name, ['name'=>$name, 'email'=>$email, 'age'=>$age, 'sex'=>$sex], ['%s', '%s', '%d', '%s']);
             if (is_wp_error($result)) {
                 $result->get_error_message();

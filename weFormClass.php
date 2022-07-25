@@ -38,6 +38,8 @@ class We_Form_Table extends WP_List_Table
         return [
             'age'  => [ 'age', true ],
             'name' => [ 'name', true ],
+            'sex' => [ 'sex', true ],
+            'email' => [ 'email', true ],
             'created_at' => [ 'created_at', true ],
         ];
     }
@@ -48,10 +50,9 @@ class We_Form_Table extends WP_List_Table
         // return "<input type='checkbox' value='{$item['id']}'/>";
         return sprintf(
             '<input type="checkbox" name="%1$s[]" value="%2$s" />',
-            /*$1%s*/
-            $this->_args['singular'],  //Let's simply repurpose the table's singular label ("plugin")
-            /*$2%s*/
-            $item['id']                //The value of the checkbox should be the record's id
+            'contacts',
+            ("plugin"),
+            $item['id']
         );
     }
 
@@ -70,28 +71,34 @@ class We_Form_Table extends WP_List_Table
         return "<em>{$item['age']}</em>";
     }
 
+    public function column_sex($item)
+    {
+        $sex=$item['sex']=='M'?'Male':'Female';
+        return  $sex;
+    }
+
     public function extra_tablenav($which)
     {
         if ('top'==$which):
             ?>
-        <div class="actions alignleft">
-            <select name="filter_s" id="filter_s">
-                <option value="all">All</option>
-                <option value="M">Males</option>
-                <option value="F">Females</option>
-            </select>
-            <?php
-                                submit_button(__('Filter', 'we_form'), 'button', 'submit', false); ?>
-        </div>
-        <?php
-                endif;
+<div class="actions alignleft">
+    <select name="filter_s" id="filter_s">
+        <option value="all">All</option>
+        <option value="M">Males</option>
+        <option value="F">Females</option>
+    </select>
+    <?php
+                                        submit_button(__('Filter', 'we_form'), 'button', 'submit', false); ?>
+</div>
+<?php
+        endif;
     }
 
 
     public function prepare_items()
     {
         $paged                 = $_REQUEST['paged'] ?? 1;
-        $per_page              = 4;
+        $per_page              = 10;
         $total_items           = count($this->_items);
         $this->process_bulk_action();
         $this->_column_headers = array( $this->get_columns(), array(), $this->get_sortable_columns() );
@@ -136,9 +143,9 @@ class We_Form_Table extends WP_List_Table
         global $wpdb;
 
         if ('delete'===$this->current_action()) {
-            foreach ($_GET['contact'] as $id) {
+            foreach ($_GET['contacts'] as $id) {
                 $result= $wpdb->delete(
-                    $wpdb->prefix . 'contact',
+                    $wpdb->prefix . 'contacts',
                     [ 'id' => $id ],
                     [ '%d' ]
                 );

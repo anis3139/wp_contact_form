@@ -15,7 +15,7 @@ Text Domain: we_form
 function we_form_init()
 {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'contact';
+    $table_name = $wpdb->prefix . 'contacts';
     $sql = "CREATE TABLE {$table_name} (
 			id INT NOT NULL AUTO_INCREMENT,
 			`name` VARCHAR(250) NOT NULL,
@@ -39,4 +39,3 @@ function we_form_load_textdomain()
 add_action("plugins_loaded", "we_form_load_textdomain");
 require_once('page.php');
 require_once "tabledata.php";
-

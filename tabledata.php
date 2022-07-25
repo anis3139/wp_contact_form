@@ -42,7 +42,7 @@ function datatable_filter_sex($item)
 function datatable_display_table()
 {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'contact';
+    $table_name = $wpdb->prefix . 'contacts';
     $results = $wpdb->get_results("select id, name, email, age, sex, created_at from {$table_name}");
     $data=json_decode(json_encode($results), true);
 
@@ -55,7 +55,7 @@ function datatable_display_table()
     if (isset($_REQUEST['filter_s']) && !empty($_REQUEST['filter_s'])) {
         $data = array_filter($data, 'datatable_filter_sex');
     }
-
+  
     $table = new We_Form_Table();
     if ('age' == $orderby) {
         if ('asc' == $order) {
@@ -75,6 +75,26 @@ function datatable_display_table()
         } else {
             usort($data, function ($item1, $item2) {
                 return $item1['name'] <=> $item2['name'];
+            });
+        }
+    } elseif ('sex' == $orderby) {
+        if ('asc' == $order) {
+            usort($data, function ($item1, $item2) {
+                return $item2['sex'] <=> $item1['sex'];
+            });
+        } else {
+            usort($data, function ($item1, $item2) {
+                return $item1['sex'] <=> $item2['sex'];
+            });
+        }
+    } elseif ('email' == $orderby) {
+        if ('asc' == $order) {
+            usort($data, function ($item1, $item2) {
+                return $item2['email'] <=> $item1['email'];
+            });
+        } else {
+            usort($data, function ($item1, $item2) {
+                return $item1['email'] <=> $item2['email'];
             });
         }
     } elseif ('created_at' == $orderby) {
@@ -105,7 +125,7 @@ function datatable_display_table()
 
     <form method="GET">
         <?php
-                $table->search_box('search', 'search_id');
+                        $table->search_box('search', 'search_id');
     $table->display(); ?>
         <input type="hidden" name="page"
             value="<?php echo $_REQUEST['page']; ?>">
@@ -125,7 +145,7 @@ function wc_delete_contact($id)
     global $wpdb;
 
     return $wpdb->delete(
-        $wpdb->prefix . 'contact',
+        $wpdb->prefix . 'contacts',
         [ 'id' => $id ],
         [ '%d' ]
     );
