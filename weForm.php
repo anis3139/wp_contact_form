@@ -16,6 +16,9 @@ Text Domain: we_form
  *
  * @return void
  */
+
+require __DIR__ . '/vendor/autoload.php';
+
 function appsero_init_tracker_weform()
 {
     if (! class_exists('Appsero\Client')) {
