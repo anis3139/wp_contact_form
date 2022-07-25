@@ -47,11 +47,9 @@ class We_Form_Table extends WP_List_Table
 
     public function column_cb($item)
     {
-        // return "<input type='checkbox' value='{$item['id']}'/>";
         return sprintf(
             '<input type="checkbox" name="%1$s[]" value="%2$s" />',
-            'contacts',
-            ("plugin"),
+            $this->_args['singular'],
             $item['id']
         );
     }
@@ -141,9 +139,8 @@ class We_Form_Table extends WP_List_Table
     public function process_bulk_action()
     {
         global $wpdb;
-
         if ('delete'===$this->current_action()) {
-            foreach ($_GET['contacts'] as $id) {
+            foreach ($_GET['contact'] as $id) {
                 $result= $wpdb->delete(
                     $wpdb->prefix . 'contacts',
                     [ 'id' => $id ],
