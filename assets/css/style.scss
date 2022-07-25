@@ -75,7 +75,25 @@ select {
   line-height: 29px;
   line-height: 2rem;
 }
+.notice {
+  text-align: center;
+  margin: 20px;
+  padding: 7px;
+  background: #f2f2f2;
+  font-size: 18px;
+  text-weight: bold;
+  border-radius:10px;
 
+  p {
+    margin-bottom: 0em;
+  }
+}
+.notice-success {
+  color: green;
+}
+.notice-error {
+  color: red;
+}
 .container {
   padding: 20px;
   width: 100%;

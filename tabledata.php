@@ -42,8 +42,8 @@ function datatable_filter_sex($item)
 function datatable_display_table()
 {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'wp_db';
-    $results = $wpdb->get_results("select id, name, email, age, sex from {$table_name}");
+    $table_name = $wpdb->prefix . 'contact';
+    $results = $wpdb->get_results("select id, name, email, age, sex, created_at from {$table_name}");
     $data=json_decode(json_encode($results), true);
 
     $orderby = $_REQUEST['orderby'] ?? '';
@@ -75,6 +75,16 @@ function datatable_display_table()
         } else {
             usort($data, function ($item1, $item2) {
                 return $item1['name'] <=> $item2['name'];
+            });
+        }
+    } elseif ('created_at' == $orderby) {
+        if ('asc' == $order) {
+            usort($data, function ($item1, $item2) {
+                return $item2['created_at'] <=> $item1['created_at'];
+            });
+        } else {
+            usort($data, function ($item1, $item2) {
+                return $item1['created_at'] <=> $item2['created_at'];
             });
         }
     }

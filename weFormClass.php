@@ -21,6 +21,7 @@ class We_Form_Table extends WP_List_Table
             'sex' =>__('Gender', 'we_form'),
             'email' => __('E-mail', 'we_form'),
             'age'   => __('Age', 'we_form'),
+            'created_at'   => __('Created At', 'we_form'),
         ];
     }
 
@@ -29,6 +30,7 @@ class We_Form_Table extends WP_List_Table
         return [
             'age'  => [ 'age', true ],
             'name' => [ 'name', true ],
+            'created_at' => [ 'created_at', true ],
         ];
     }
 
@@ -42,6 +44,11 @@ class We_Form_Table extends WP_List_Table
     {
         return "<strong>{$item['email']}</strong>";
     }
+    public function column_created_at($item)
+    {
+        $created_at= date('Y-M-d H:i a', strtotime($item['created_at']));
+        return "<strong>{$created_at}</strong>";
+    }
 
     public function column_age($item)
     {
@@ -53,12 +60,12 @@ class We_Form_Table extends WP_List_Table
         if ('top'==$which):
             ?>
 <div class="actions alignleft">
-	<select name="filter_s" id="filter_s">
-		<option value="all">All</option>
-		<option value="M">Males</option>
-		<option value="F">Females</option>
-	</select>
-	<?php
+    <select name="filter_s" id="filter_s">
+        <option value="all">All</option>
+        <option value="M">Males</option>
+        <option value="F">Females</option>
+    </select>
+    <?php
                 submit_button(__('Filter', 'we_form'), 'button', 'submit', false); ?>
 </div>
 <?php

@@ -16,9 +16,11 @@ function handle_form()
     if (! isset($_POST['action']) || 'wpdb_contact_form' !== $_POST['action']) {
         return;
     }
+
+
     if (
         ! isset($_POST['contact_form'])
-        || ! wp_verify_nonce($_POST['contact_form'], '_contact_form_nonce')
+        || ! wp_verify_nonce($_POST['_contact_form_nonce'], 'contact_form')
     ) {
         $name=validation($_POST['name']);
         $email=validation($_POST['email']);
@@ -26,13 +28,15 @@ function handle_form()
         $sex=validation($_POST['sex']);
         if (strlen($name)!=0 && strlen($email)!=0 && strlen($age)!=0&& strlen($sex)!=0) {
             global $wpdb;
-            $table_name = $wpdb->prefix . 'wp_db';
+            $table_name = $wpdb->prefix . 'contact';
             $result=$wpdb->insert($table_name, ['name'=>$name, 'email'=>$email, 'age'=>$age, 'sex'=>$sex], ['%s', '%s', '%d', '%s']);
             if (is_wp_error($result)) {
                 $result->get_error_message();
             }
+            wp_redirect(home_url('contact-page') . '?success=true');
+            exit;
         } else {
-            echo 'Field is required';
+            wp_redirect(home_url('contact-page') . '?success=false');
         }
     }
 }
