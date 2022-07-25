@@ -37,6 +37,6 @@ function we_form_load_textdomain()
 }
 
 add_action("plugins_loaded", "we_form_load_textdomain");
-
 require_once('page.php');
 require_once "tabledata.php";
+

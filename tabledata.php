@@ -8,7 +8,7 @@ function datatable_admin_page()
         __('We Form', 'we_form'),
         __('We Form', 'we_form'),
         'manage_options',
-        'datatable',
+        'we-form',
         'datatable_display_table',
         'dashicons-email-alt2',
         25
@@ -92,11 +92,20 @@ function datatable_display_table()
 
     $table->prepare_items(); ?>
 <div class="wrap">
-    <h2><?php _e("All Contact", "we_form"); ?>
+    <h2>
+        <?php _e("All Contact", "we_form"); ?>
     </h2>
+
+    <?php if (isset($_GET['contact-deleted']) && $_GET['contact-deleted'] == 'true') { ?>
+    <div class="notice notice-success">
+        <p><?php _e('Contact has been deleted successfully!', 'wedevs-academy'); ?>
+        </p>
+    </div>
+    <?php } ?>
+
     <form method="GET">
         <?php
-            $table->search_box('search', 'search_id');
+                $table->search_box('search', 'search_id');
     $table->display(); ?>
         <input type="hidden" name="page"
             value="<?php echo $_REQUEST['page']; ?>">
@@ -106,3 +115,43 @@ function datatable_display_table()
 }
 
 add_action("admin_menu", "datatable_admin_page");
+
+
+
+
+
+function wc_delete_contact($id)
+{
+    global $wpdb;
+
+    return $wpdb->delete(
+        $wpdb->prefix . 'contact',
+        [ 'id' => $id ],
+        [ '%d' ]
+    );
+}
+
+function delete_contact()
+{
+    if (! wp_verify_nonce($_REQUEST['_wpnonce'], 'wc-delete-contact')) {
+        wp_die('Are you cheating?');
+    }
+
+    if (! current_user_can('manage_options')) {
+        wp_die('Are you cheating?');
+    }
+
+    $id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+
+    if (wc_delete_contact($id)) {
+        $redirected_to = admin_url('admin.php?page=we-form&contact-deleted=true');
+    } else {
+        $redirected_to = admin_url('admin.php?page=we-form&contact-deleted=false');
+    }
+
+    wp_redirect($redirected_to);
+    exit;
+}
+
+
+add_action('admin_post_wc-delete-contact', 'delete_contact');
