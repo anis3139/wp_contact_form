@@ -46,7 +46,7 @@ class We_Form_Table extends WP_List_Table
     }
     public function column_created_at($item)
     {
-        $created_at= date('Y-M-d H:i a', strtotime($item['created_at']));
+        $created_at= date('M d, Y H:i a', strtotime($item['created_at']));
         return "<strong>{$created_at}</strong>";
     }
 
